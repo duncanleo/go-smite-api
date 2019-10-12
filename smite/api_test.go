@@ -2,6 +2,7 @@ package smite
 
 import (
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/joho/godotenv"
@@ -79,5 +80,13 @@ func TestGetPlayerStats(t *testing.T) {
 	}
 	if achievements.PlayerID != playerResults[0].PlayerID {
 		t.Errorf("PlayerID does not match in GetPlayerAchievements")
+	}
+	godRanks, err := c.GetPlayerGodRanks(createSessionResponse.SessionID, playerResults[0].PlayerID)
+	if len(godRanks) == 0 {
+		t.Errorf("No god ranks returned by GetPlayerGodRanks")
+		return
+	}
+	if godRanks[0].PlayerID != strconv.Itoa(playerResults[0].PlayerID) { // I have no idea why playerID is a string in this route
+		t.Errorf("PlayerID does not match in GetPlayerGodRanks")
 	}
 }

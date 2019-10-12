@@ -100,3 +100,19 @@ type GetPlayerAchievementsResponse struct {
 	WildJuggernautKills  int         `json:"WildJuggernautKills"`
 	RetMsg               interface{} `json:"ret_msg"`
 }
+
+// GetPlayerGodRanksResponse response when getting god ranks for a player
+type GetPlayerGodRanksResponse []struct {
+	Assists     int         `json:"Assists"`
+	Deaths      int         `json:"Deaths"`
+	Kills       int         `json:"Kills"`
+	Losses      int         `json:"Losses"`
+	MinionKills int         `json:"MinionKills"`
+	Rank        int         `json:"Rank"`
+	Wins        int         `json:"Wins"`
+	Worshippers int         `json:"Worshippers"`
+	God         string      `json:"god"`
+	GodID       string      `json:"god_id"`
+	PlayerID    string      `json:"player_id"`
+	RetMsg      interface{} `json:"ret_msg"`
+}
