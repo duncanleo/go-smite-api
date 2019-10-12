@@ -13,6 +13,9 @@ import (
 
 const (
 	baseURL = "http://api.smitegame.com/smiteapi.svc"
+
+	// LanguageCodeEnglish API language code for English
+	LanguageCodeEnglish = "1"
 )
 
 // Client represents an API client for SMITE API
@@ -138,6 +141,11 @@ func (c Client) GetDataUsed(sessionID string) (GetDataUsedResponse, error) {
 	}
 	return result, err
 }
+
+// GetGods get details on all gods in SMITE
+func (c Client) GetGods(sessionID string) (GetGodsResponse, error) {
+	var result GetGodsResponse
+	resp, err := c.GetAuthedTertiaryRoute("getgodsjson", sessionID, LanguageCodeEnglish)
 
 	if resp.StatusCode != http.StatusOK {
 		return result, fmt.Errorf("HTTP %d", resp.StatusCode)
