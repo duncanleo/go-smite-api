@@ -45,9 +45,10 @@ func (c Client) GetAuthed(route string) (*http.Response, error) {
 	return c.Get(fmt.Sprintf("%s/%s/%s/%s", route, c.DevID, c.signature(strings.Replace(route, "json", "", 1)), c.timestamp()))
 }
 
-// GetAuthedSubRoute make a HTTP GET request authenticated with developer's signature
-func (c Client) GetAuthedSubRoute(route, subRoute string) (*http.Response, error) {
-	return c.Get(fmt.Sprintf("%s/%s/%s/%s/%s", route, c.DevID, c.signature(strings.Replace(route, "json", "", 1)), subRoute, c.timestamp()))
+// GetAuthedSecondaryRoute make a HTTP GET request authenticated with developer's signature
+func (c Client) GetAuthedSecondaryRoute(route, secondaryRoute string) (*http.Response, error) {
+	return c.Get(fmt.Sprintf("%s/%s/%s/%s/%s", route, c.DevID, c.signature(strings.Replace(route, "json", "", 1)), secondaryRoute, c.timestamp()))
+}
 }
 
 func (c Client) timestamp() string {
@@ -99,7 +100,7 @@ func (c Client) CreateSession() (CreateSessionResponse, error) {
 // TestSession test if the current developer signature is valid
 func (c Client) TestSession(sessionID string) (string, error) {
 	var result string
-	resp, err := c.GetAuthedSubRoute("testsessionjson", sessionID)
+	resp, err := c.GetAuthedSecondaryRoute("testsessionjson", sessionID)
 
 	if resp.StatusCode != http.StatusOK {
 		return result, fmt.Errorf("HTTP %d", resp.StatusCode)
@@ -118,7 +119,21 @@ func (c Client) TestSession(sessionID string) (string, error) {
 // GetDataUsed get current API usage limits
 func (c Client) GetDataUsed(sessionID string) (GetDataUsedResponse, error) {
 	var result GetDataUsedResponse
-	resp, err := c.GetAuthedSubRoute("getdatausedjson", sessionID)
+	resp, err := c.GetAuthedSecondaryRoute("getdatausedjson", sessionID)
+
+	if resp.StatusCode != http.StatusOK {
+		return result, fmt.Errorf("HTTP %d", resp.StatusCode)
+	}
+
+	defer resp.Body.Close()
+	err = json.NewDecoder(resp.Body).Decode(&result)
+
+	// API doesn't use HTTP status codes :(
+	if len(result) > 0 && result[0].RetMsg == "Invalid session id." {
+		return result, fmt.Errorf("Invalid session ID")
+	}
+	return result, err
+}
 
 	if resp.StatusCode != http.StatusOK {
 		return result, fmt.Errorf("HTTP %d", resp.StatusCode)
