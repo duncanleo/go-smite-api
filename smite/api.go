@@ -237,3 +237,22 @@ func (c Client) GetPlayerGodRanks(sessionID string, playerID int) (GetPlayerGodR
 	}
 	return result, err
 }
+
+// GetPlayerMatchHistory Get god ranks for a player
+func (c Client) GetPlayerMatchHistory(sessionID string, playerID int) (GetPlayerMatchHistoryResponse, error) {
+	var result GetPlayerMatchHistoryResponse
+	resp, err := c.GetAuthedTertiaryRoute("getmatchhistoryjson", sessionID, strconv.Itoa(playerID))
+
+	if resp.StatusCode != http.StatusOK {
+		return result, fmt.Errorf("HTTP %d", resp.StatusCode)
+	}
+
+	defer resp.Body.Close()
+	err = json.NewDecoder(resp.Body).Decode(&result)
+
+	// API doesn't use HTTP status codes :(
+	if len(result) > 0 && result[0].RetMsg == "Invalid session id." {
+		return result, fmt.Errorf("Invalid session ID")
+	}
+	return result, err
+}

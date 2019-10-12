@@ -89,4 +89,12 @@ func TestGetPlayerStats(t *testing.T) {
 	if godRanks[0].PlayerID != strconv.Itoa(playerResults[0].PlayerID) { // I have no idea why playerID is a string in this route
 		t.Errorf("PlayerID does not match in GetPlayerGodRanks")
 	}
+	matchHistory, err := c.GetPlayerMatchHistory(createSessionResponse.SessionID, playerResults[0].PlayerID)
+	if len(godRanks) == 0 {
+		t.Errorf("No god ranks returned by GetPlayerMatchHistory")
+		return
+	}
+	if matchHistory[0].PlayerID != playerResults[0].PlayerID { // I have no idea why playerID is a string in this route
+		t.Errorf("PlayerID does not match in GetPlayerMatchHistory")
+	}
 }
