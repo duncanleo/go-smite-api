@@ -73,4 +73,11 @@ func TestGetPlayerStats(t *testing.T) {
 	if player[0].ID != playerResults[0].PlayerID {
 		t.Errorf("PlayerID does not match in GetPlayer")
 	}
+	achievements, err := c.GetPlayerAchievements(createSessionResponse.SessionID, playerResults[0].PlayerID)
+	if err != nil {
+		t.Error(err)
+	}
+	if achievements.PlayerID != playerResults[0].PlayerID {
+		t.Errorf("PlayerID does not match in GetPlayerAchievements")
+	}
 }

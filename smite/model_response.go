@@ -70,3 +70,33 @@ type GetPlayerResponse []struct {
 	HzPlayerName               string      `json:"hz_player_name"`
 	RetMsg                     interface{} `json:"ret_msg"`
 }
+
+// GetPlayerAchievementsResponse response when getting player achievements
+type GetPlayerAchievementsResponse struct {
+	AssistedKills        int         `json:"AssistedKills"`
+	CampsCleared         int         `json:"CampsCleared"`
+	Deaths               int         `json:"Deaths"`
+	DivineSpree          int         `json:"DivineSpree"`
+	DoubleKills          int         `json:"DoubleKills"`
+	FireGiantKills       int         `json:"FireGiantKills"`
+	FirstBloods          int         `json:"FirstBloods"`
+	GodLikeSpree         int         `json:"GodLikeSpree"`
+	GoldFuryKills        int         `json:"GoldFuryKills"`
+	PlayerID             int         `json:"Id"`
+	ImmortalSpree        int         `json:"ImmortalSpree"`
+	KillingSpree         int         `json:"KillingSpree"`
+	MinionKills          int         `json:"MinionKills"`
+	Name                 string      `json:"Name"`
+	PentaKills           int         `json:"PentaKills"`
+	PhoenixKills         int         `json:"PhoenixKills"`
+	PlayerKills          int         `json:"PlayerKills"`
+	QuadraKills          int         `json:"QuadraKills"`
+	RampageSpree         int         `json:"RampageSpree"`
+	ShutdownSpree        int         `json:"ShutdownSpree"`
+	SiegeJuggernautKills int         `json:"SiegeJuggernautKills"`
+	TowerKills           int         `json:"TowerKills"`
+	TripleKills          int         `json:"TripleKills"`
+	UnstoppableSpree     int         `json:"UnstoppableSpree"`
+	WildJuggernautKills  int         `json:"WildJuggernautKills"`
+	RetMsg               interface{} `json:"ret_msg"`
+}

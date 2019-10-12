@@ -199,3 +199,22 @@ func (c Client) GetPlayer(sessionID string, playerID int) (GetPlayerResponse, er
 	}
 	return result, err
 }
+
+// GetPlayerAchievements Get a player's achievements
+func (c Client) GetPlayerAchievements(sessionID string, playerID int) (GetPlayerAchievementsResponse, error) {
+	var result GetPlayerAchievementsResponse
+	resp, err := c.GetAuthedTertiaryRoute("getplayerachievementsjson", sessionID, strconv.Itoa(playerID))
+
+	if resp.StatusCode != http.StatusOK {
+		return result, fmt.Errorf("HTTP %d", resp.StatusCode)
+	}
+
+	defer resp.Body.Close()
+	err = json.NewDecoder(resp.Body).Decode(&result)
+
+	// API doesn't use HTTP status codes :(
+	if result.RetMsg == "Invalid session id." {
+		return result, fmt.Errorf("Invalid session ID")
+	}
+	return result, err
+}
