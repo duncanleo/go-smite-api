@@ -30,4 +30,8 @@ func TestSession(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	_, err = c.GetDataUsed(createSessionResponse.SessionID)
+	if err != nil {
+		t.Error(err)
+	}
 }

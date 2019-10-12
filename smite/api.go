@@ -114,3 +114,22 @@ func (c Client) TestSession(sessionID string) (string, error) {
 	}
 	return result, err
 }
+
+// GetDataUsed get current API usage limits
+func (c Client) GetDataUsed(sessionID string) (GetDataUsedResponse, error) {
+	var result GetDataUsedResponse
+	resp, err := c.GetAuthedSubRoute("getdatausedjson", sessionID)
+
+	if resp.StatusCode != http.StatusOK {
+		return result, fmt.Errorf("HTTP %d", resp.StatusCode)
+	}
+
+	defer resp.Body.Close()
+	err = json.NewDecoder(resp.Body).Decode(&result)
+
+	// API doesn't use HTTP status codes :(
+	if len(result) > 0 && result[0].RetMsg == "Invalid session id." {
+		return result, fmt.Errorf("Invalid session ID")
+	}
+	return result, err
+}
