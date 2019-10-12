@@ -49,6 +49,10 @@ func (c Client) GetAuthed(route string) (*http.Response, error) {
 func (c Client) GetAuthedSecondaryRoute(route, secondaryRoute string) (*http.Response, error) {
 	return c.Get(fmt.Sprintf("%s/%s/%s/%s/%s", route, c.DevID, c.signature(strings.Replace(route, "json", "", 1)), secondaryRoute, c.timestamp()))
 }
+
+// GetAuthedTertiaryRoute make a HTTP GET request authenticated with developer's signature
+func (c Client) GetAuthedTertiaryRoute(route, secondaryRoute, tertiaryRoute string) (*http.Response, error) {
+	return c.Get(fmt.Sprintf("%s/%s/%s/%s/%s/%s", route, c.DevID, c.signature(strings.Replace(route, "json", "", 1)), secondaryRoute, c.timestamp(), tertiaryRoute))
 }
 
 func (c Client) timestamp() string {
