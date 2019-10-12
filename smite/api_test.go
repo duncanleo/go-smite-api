@@ -47,3 +47,18 @@ func TestGods(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestGetPlayerIDByName(t *testing.T) {
+	c := authClient()
+	createSessionResponse, err := c.CreateSession()
+	if err != nil {
+		t.Error(err)
+	}
+	playerResults, err := c.GetPlayerIDByName(createSessionResponse.SessionID, "Lassiz")
+	if err != nil {
+		t.Error(err)
+	}
+	if len(playerResults) == 0 {
+		t.Errorf("No players returned by GetPlayerIDByName")
+	}
+}

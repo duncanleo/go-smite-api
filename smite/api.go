@@ -160,3 +160,22 @@ func (c Client) GetGods(sessionID string) (GetGodsResponse, error) {
 	}
 	return result, err
 }
+
+// GetPlayerIDByName Search for a player by name
+func (c Client) GetPlayerIDByName(sessionID, playerName string) (GetPlayerIDByNameResponse, error) {
+	var result GetPlayerIDByNameResponse
+	resp, err := c.GetAuthedTertiaryRoute("getplayeridbynamejson", sessionID, playerName)
+
+	if resp.StatusCode != http.StatusOK {
+		return result, fmt.Errorf("HTTP %d", resp.StatusCode)
+	}
+
+	defer resp.Body.Close()
+	err = json.NewDecoder(resp.Body).Decode(&result)
+
+	// API doesn't use HTTP status codes :(
+	if len(result) > 0 && result[0].RetMsg == "Invalid session id." {
+		return result, fmt.Errorf("Invalid session ID")
+	}
+	return result, err
+}

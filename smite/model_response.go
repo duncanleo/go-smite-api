@@ -21,3 +21,11 @@ type GetDataUsedResponse []struct {
 
 // GetGodsResponse response when getting all gods
 type GetGodsResponse []God
+
+// GetPlayerIDByNameResponse response when getting player ID by name
+type GetPlayerIDByNameResponse []struct {
+	PlayerID int         `json:"player_id"`
+	Portal   string      `json:"portal"`
+	PortalID string      `json:"portal_id"`
+	RetMsg   interface{} `json:"ret_msg"`
+}
