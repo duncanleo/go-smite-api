@@ -41,7 +41,7 @@ type God struct {
 	MagicProtection            int         `json:"MagicProtection"`
 	MagicProtectionPerLevel    float64     `json:"MagicProtectionPerLevel"`
 	MagicalPower               int         `json:"MagicalPower"`
-	MagicalPowerPerLevel       int         `json:"MagicalPowerPerLevel"`
+	MagicalPowerPerLevel       float64     `json:"MagicalPowerPerLevel"`
 	Mana                       int         `json:"Mana"`
 	ManaPerFive                float64     `json:"ManaPerFive"`
 	ManaPerLevel               int         `json:"ManaPerLevel"`
@@ -49,9 +49,9 @@ type God struct {
 	OnFreeRotation             string      `json:"OnFreeRotation"`
 	Pantheon                   string      `json:"Pantheon"`
 	PhysicalPower              int         `json:"PhysicalPower"`
-	PhysicalPowerPerLevel      int         `json:"PhysicalPowerPerLevel"`
+	PhysicalPowerPerLevel      float64     `json:"PhysicalPowerPerLevel"`
 	PhysicalProtection         int         `json:"PhysicalProtection"`
-	PhysicalProtectionPerLevel int         `json:"PhysicalProtectionPerLevel"`
+	PhysicalProtectionPerLevel float64     `json:"PhysicalProtectionPerLevel"`
 	Pros                       string      `json:"Pros"`
 	Roles                      string      `json:"Roles"`
 	Speed                      int         `json:"Speed"`
