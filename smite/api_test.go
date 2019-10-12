@@ -35,3 +35,15 @@ func TestSession(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestGods(t *testing.T) {
+	c := authClient()
+	createSessionResponse, err := c.CreateSession()
+	if err != nil {
+		t.Error(err)
+	}
+	_, err = c.GetGods(createSessionResponse.SessionID)
+	if err != nil {
+		t.Error(err)
+	}
+}
