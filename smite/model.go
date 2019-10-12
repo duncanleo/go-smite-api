@@ -80,3 +80,20 @@ type ItemDescription struct {
 type Description struct {
 	ItemDescription ItemDescription `json:"itemDescription"`
 }
+
+// RankedGame represents a ranked game
+type RankedGame struct {
+	Leaves   int         `json:"Leaves"`
+	Losses   int         `json:"Losses"`
+	Name     string      `json:"Name"`
+	Points   int         `json:"Points"`
+	PrevRank int         `json:"PrevRank"`
+	Rank     int         `json:"Rank"`
+	RankStat float64     `json:"Rank_Stat"`
+	Season   int         `json:"Season"`
+	Tier     int         `json:"Tier"`
+	Trend    int         `json:"Trend"`
+	Wins     int         `json:"Wins"`
+	PlayerID interface{} `json:"player_id"`
+	RetMsg   interface{} `json:"ret_msg"`
+}

@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -165,6 +166,25 @@ func (c Client) GetGods(sessionID string) (GetGodsResponse, error) {
 func (c Client) GetPlayerIDByName(sessionID, playerName string) (GetPlayerIDByNameResponse, error) {
 	var result GetPlayerIDByNameResponse
 	resp, err := c.GetAuthedTertiaryRoute("getplayeridbynamejson", sessionID, playerName)
+
+	if resp.StatusCode != http.StatusOK {
+		return result, fmt.Errorf("HTTP %d", resp.StatusCode)
+	}
+
+	defer resp.Body.Close()
+	err = json.NewDecoder(resp.Body).Decode(&result)
+
+	// API doesn't use HTTP status codes :(
+	if len(result) > 0 && result[0].RetMsg == "Invalid session id." {
+		return result, fmt.Errorf("Invalid session ID")
+	}
+	return result, err
+}
+
+// GetPlayer Get data about a player
+func (c Client) GetPlayer(sessionID string, playerID int) (GetPlayerResponse, error) {
+	var result GetPlayerResponse
+	resp, err := c.GetAuthedTertiaryRoute("getplayerjson", sessionID, strconv.Itoa(playerID))
 
 	if resp.StatusCode != http.StatusOK {
 		return result, fmt.Errorf("HTTP %d", resp.StatusCode)

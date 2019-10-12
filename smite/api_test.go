@@ -48,7 +48,7 @@ func TestGods(t *testing.T) {
 	}
 }
 
-func TestGetPlayerIDByName(t *testing.T) {
+func TestGetPlayerStats(t *testing.T) {
 	c := authClient()
 	createSessionResponse, err := c.CreateSession()
 	if err != nil {
@@ -60,5 +60,17 @@ func TestGetPlayerIDByName(t *testing.T) {
 	}
 	if len(playerResults) == 0 {
 		t.Errorf("No players returned by GetPlayerIDByName")
+		return
+	}
+	player, err := c.GetPlayer(createSessionResponse.SessionID, playerResults[0].PlayerID)
+	if err != nil {
+		t.Error(err)
+	}
+	if len(player) == 0 {
+		t.Errorf("No players returned by GetPlayer")
+		return
+	}
+	if player[0].ID != playerResults[0].PlayerID {
+		t.Errorf("PlayerID does not match in GetPlayer")
 	}
 }
